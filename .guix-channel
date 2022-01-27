@@ -1,0 +1,3 @@
+;; -*- mode: scheme; -*-
+(channel  (version 0)
+	  (url "https://github.com/Nazar65/my-guix-packages-channel")) ; the primary URL
