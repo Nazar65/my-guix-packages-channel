@@ -1,0 +1,15 @@
+--- /bootstrap.sh
++++ /bootstrap.sh
+@@ -28,12 +28,6 @@
+  exit 1
+ fi
+
+-
+-echo "** Initializing git submodules ..."
+-git submodule init
+-git submodule update
+-echo
+-
+ echo "** Updating version.m4 ..."
+ ./update-version-m4.sh
+ echo

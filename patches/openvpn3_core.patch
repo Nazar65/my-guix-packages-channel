@@ -1,0 +1,64 @@
+--- /configure.ac
++++ /configure.ac
+@@ -368,13 +368,7 @@
+ fi
+ AC_MSG_NOTICE([Using OpenVPN 3 Core Library directory: ${OPENVPN3_CORE_SOURCEDIR}])
+ AC_MSG_CHECKING([OpenVPN 3 Core Library version])
+-if test -e "${srcdir}/.git"; then
+-   OPENVPN3_CORE_VERSION="`${OPENVPN3_CORE_SOURCEDIR}/scripts/version`"
+-elif test -f ${srcdir}/openvpn3-core-version; then
+-   OPENVPN3_CORE_VERSION="`cat ${srcdir}/openvpn3-core-version`"
+-else
+-   AC_MSG_ERROR([Missing openvpn3-core version information. Corrupt package?])
+-fi
++OPENVPN3_CORE_VERSION="`echo v17_beta`"
+ AC_MSG_RESULT([${OPENVPN3_CORE_VERSION}])
+ OPENVPN3_CORE_CXXFLAGS="-I${OPENVPN3_CORE_SOURCEDIR} -DOPENVPN_VERSION=\\\"${OPENVPN3_CORE_VERSION}\\\""
+ AC_SUBST([OPENVPN3_CORE_CXXFLAGS])
+@@ -589,35 +583,11 @@
+      [AS_HELP_STRING([--disable-selinux-build],
+                      [Disables building the SELinux policy])],
+      [],
+-     [enable_selinux_build="yes"]
++     [enable_selinux_build="no"]
+ )
+ 
+-dnl  This path is used to detect if the SELinux policy
+-dnl  development files.  By default it will use /usr/share/selinux/devel
+-dnl
+-if test "${enable_selinux_build}" = "yes"; then
+-   AC_ARG_VAR([SELINUX_DEVEL_PATH],
+-           [Directory containing the SELinux policy development files (default: ${datarootdir}/selinux/devel)])
+-   if test -n "${SELINUX_DEVEL_PATH}"; then
+-        selinux_devel_path="${SELINUX_DEVEL_PATH}"
+-   else
+-        AX_RECURSIVE_EVAL([${datarootdir}/selinux/devel], [selinux_devel_path])
+-   fi
+-   AC_MSG_NOTICE([Checking for SELinux policy development files])
+-   AC_CHECK_FILE([${selinux_devel_path}/Makefile], [],
+-                 [AC_CHECK_FILE([/usr/share/selinux/devel],
+-                                [selinux_devel_path="/usr/share/selinux/devel"],
+-                                [enable_selinux_build="no"])])
+-
+-   AC_SUBST([selinux_devel_path])
+-
+-
+-   if test "${enable_selinux_build}" = "yes"; then
+-        AC_DEFINE([ENABLE_SELINUX_BUILD], [1], [Build SELinux policy and enable related code paths])
+-   fi
+-fi
+ AC_SUBST([ENABLE_SELINUX_BUILD])
+-AM_CONDITIONAL([ENABLE_SELINUX_BUILD], [test "$enable_selinux_build" = "yes"])
++AM_CONDITIONAL([ENABLE_SELINUX_BUILD], [test "$enable_selinux_build" = "no"])
+ 
+ 
+ dnl
+@@ -754,6 +724,7 @@
+     [enable_debug_exceptions="yes"],
+     []
+ )
++
+ AC_SUBST([DEBUG_EXCEPTIONS])
+ if test "${enable_debug_exceptions}" = "yes"; then
+    AC_DEFINE([DEBUG_EXCEPTIONS], [1], [add more details when throwing DBusExceptions])
+

@@ -1,0 +1,21 @@
+--- /Makefile.am
++++ /Makefile.am
+@@ -35,10 +35,6 @@
+ SUBDIRS += addons/aws
+ endif
+
+-if ENABLE_SELINUX_BUILD
+-SUBDIRS += src/selinux
+-endif
+-
+ MAINTAINERCLEANFILES = \
+         config-version.h openvpn3-core-version \
+         config.log config.status \
+@@ -191,7 +187,6 @@
+ 	src/tests/unit/configfileparser.cpp \
+ 	src/tests/unit/timestamp.cpp \
+ 	src/tests/unit/logevent.cpp \
+-	src/tests/unit/lookup.cpp \
+ 	src/tests/unit/netcfg-changeevent.cpp \
+ 	src/tests/unit/sessionmgr-events.cpp \
+ 	src/tests/unit/statusevent.cpp \
